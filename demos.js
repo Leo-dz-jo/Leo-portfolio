@@ -1,21 +1,8 @@
-/* =========================================================================
-   DEMOS.JS — small, self-contained interactive simulations of each real
-   project, mounted into the "Live demo" tab of the project modal (see
-   openModal() in script.js). Each entry in DEMOS is keyed by the 'demo'
-   field set on a project in data.js, and exposes:
 
-     build(root) -> cleanup()
-
-   'root' is an empty container already in the DOM. build() should render
-   into it and wire up listeners, then return a cleanup function (clearing
-   intervals/timeouts) that gets called when the modal closes or switches
-   to a different project. These are simulations, not the production
-   apps — scaled down to run instantly, offline, with no backend.
-   ========================================================================= */
 
 const DEMOS = {};
 
-/* ---------- shared little helpers ---------- */
+
 function peso(n){
   return '\u20b1' + n.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
@@ -28,10 +15,7 @@ function fmtElapsed(ms){
 function shortHash(){ return Array.from({length:8}, () => '0123456789abcdef'[Math.floor(Math.random()*16)]).join(''); }
 function el(tag, cls, html){ const e = document.createElement(tag); if(cls) e.className = cls; if(html !== undefined) e.innerHTML = html; return e; }
 
-/* =========================================================================
-   1) TIMECARD PWA — geolocation-verified clock-in with a live hash-chained
-   audit log, mirroring audit-log.js shown in "Under the hood".
-   ========================================================================= */
+
 DEMOS.timecard = {
   build(root){
     const employees = ['J. Bregana', 'M. Santos', 'A. Reyes'];
@@ -120,10 +104,7 @@ DEMOS.timecard = {
   }
 };
 
-/* =========================================================================
-   2) FINANCIAL COMMAND CENTER — three companies, live-ticking KPI cards
-   with a count-up animation mirroring AnimateKPICard() in VBA.
-   ========================================================================= */
+
 DEMOS.financial = {
   build(root){
     const companies = [
@@ -156,7 +137,7 @@ DEMOS.financial = {
     function accent(){ return getComputedStyle(document.body).getPropertyValue('--accent').trim(); }
     function accent2(){ return getComputedStyle(document.body).getPropertyValue('--accent-2').trim(); }
 
-    // synthetic 6-month history per company, derived deterministically from revenue
+
     function history(c){
       const arr = [];
       for(let m=0;m<6;m++){
@@ -223,10 +204,7 @@ DEMOS.financial = {
   }
 };
 
-/* =========================================================================
-   3) DEV-TO-DO — 4-stage kanban board (subset of the real 7-stage board),
-   cards move with a tap/click (works on touch) or native drag on desktop.
-   ========================================================================= */
+
 DEMOS.kanban = {
   build(root){
     const cols = ['Backlog', 'In progress', 'Review', 'Done'];
@@ -307,10 +285,7 @@ DEMOS.kanban = {
   }
 };
 
-/* =========================================================================
-   4) MB_303 — BIOMETRIC ATTENDANCE — simulated OLED readout, fingerprint
-   scan, and servo-gate, mirroring enrollFingerprint()'s state flow.
-   ========================================================================= */
+
 DEMOS.biometric = {
   build(root){
     const names = ['J. Bregana', 'M. Santos', 'A. Reyes', 'unknown'];
@@ -395,10 +370,7 @@ DEMOS.biometric = {
   }
 };
 
-/* =========================================================================
-   5) EXCEL BUSINESS SUITE — a tiny editable inventory sheet with live
-   SUMIFS-style totals and peso formatting.
-   ========================================================================= */
+
 DEMOS.excel = {
   build(root){
     let rows = [
@@ -459,11 +431,7 @@ DEMOS.excel = {
   }
 };
 
-/* =========================================================================
-   6) REACT TO-DO SUITE — one shared task list rendered through three
-   coordinated views (List / Kanban / Calendar), proving state stays in
-   sync no matter which view edits it.
-   ========================================================================= */
+
 DEMOS.reacttodo = {
   build(root){
     let tasks = [
@@ -540,10 +508,7 @@ DEMOS.reacttodo = {
   }
 };
 
-/* =========================================================================
-   7) BRANCH (concept) — task dependency graph rendered as git-style
-   commit nodes; adding a task attaches it to a chosen parent.
-   ========================================================================= */
+
 DEMOS.branch = {
   build(root){
     let nodes = [
