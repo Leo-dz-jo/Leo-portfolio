@@ -1,15 +1,13 @@
-/* ================================================================
-   SCRIPT — main application logic
-   ================================================================ */
+
 
 (function() {
     'use strict';
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ---- Profile fill-in ----
+   
     document.getElementById('navName').textContent = PROFILE.handle;
-    // Wrap "software" with glitch span and "working" with highlight span
+    
     let tagline = PROFILE.tagline;
     tagline = tagline.replace(/software/i, '<span class="glitch-word" data-text="software">software</span>');
     tagline = tagline.replace(/working/i, '<span class="hl">working</span>');
@@ -19,7 +17,7 @@
     document.getElementById('copyEmailBtn').textContent = `Copy email — ${PROFILE.email}`;
     document.getElementById('githubLink').href = PROFILE.github;
 
-    // ---- Photos (set separately — hero circle vs timeline circle) ----
+   
     const fallbackPhoto = `https://ui-avatars.com/api/?name=${encodeURIComponent(PROFILE.name || 'L')}&background=161D26&color=E8A33D&size=320&font-size=0.5&bold=true`;
     const heroPhotoSrc = (PROFILE.photo && PROFILE.photo.trim()) ? PROFILE.photo.trim() : fallbackPhoto;
     const timelinePhotoSrc = (PROFILE.timelinePhoto && PROFILE.timelinePhoto.trim()) ? PROFILE.timelinePhoto.trim() : fallbackPhoto;
@@ -30,12 +28,12 @@
         const img = document.getElementById(id);
         if (!img) return;
         img.src = src;
-        // keep the chromatic-glitch ghost layers in sync with whatever photo is loaded
+       
         const wrap = img.closest('.tlp-photo');
         if (wrap) wrap.style.setProperty('--photo-src', `url("${src}")`);
     });
 
-    // ---- Preloader ----
+    
     (function boot() {
         const bootLines = document.getElementById('bootLines');
         const bootBar = document.getElementById('bootBar');
@@ -66,7 +64,7 @@
         step();
     })();
 
-    // ---- Mobile nav ----
+   
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const navCollapse = document.getElementById('navCollapse');
     const navBackdrop = document.getElementById('navBackdrop');
@@ -93,7 +91,7 @@
         }
     });
 
-    // ---- Scroll progress ----
+    
     const scrollProgress = document.getElementById('scroll-progress');
     const readProgress = document.getElementById('read-progress');
     let readTimeout;
@@ -112,7 +110,7 @@
     window.addEventListener('scroll', updateScrollProgress, { passive: true });
     updateScrollProgress();
 
-    // ---- Dot nav scrollspy ----
+   
     const dotButtons = document.querySelectorAll('#dot-nav button');
     const topNavLinks = document.querySelectorAll('.nav-links a[href^="#"]');
     const spySections = [...dotButtons].map(b => document.getElementById(b.dataset.target)).filter(Boolean);
@@ -132,7 +130,7 @@
     }, { rootMargin: '-45% 0px -50% 0px' });
     spySections.forEach(s => spyObserver.observe(s));
 
-    // ---- Custom cursor ----
+    
     if (window.matchMedia('(pointer:fine)').matches && !reduceMotion) {
         document.body.classList.add('has-custom-cursor');
         const dot = document.getElementById('cursorDot');
@@ -162,7 +160,7 @@
         });
     }
 
-    // ---- Magnetic buttons ----
+   
     if (window.matchMedia('(pointer:fine)').matches && !reduceMotion) {
         document.querySelectorAll('.magnetic').forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
@@ -175,7 +173,7 @@
         });
     }
 
-    // ---- Theme ----
+    
     function setTheme(cls) {
         document.body.className = document.body.className.replace(/theme-\w+/g, '').trim();
         if (cls) document.body.classList.add(cls);
@@ -189,7 +187,7 @@
             unlockAchievement('theme'); });
     });
 
-    // ---- Toast ----
+    
     const toastEl = document.getElementById('toast');
     let toastTimer = null;
 
@@ -200,7 +198,7 @@
         toastTimer = setTimeout(() => { toastEl.classList.remove('show'); }, 2800);
     }
 
-    // ---- SFX ----
+    
     let audioCtx = null;
     let sfxOn = false;
 
@@ -247,7 +245,7 @@
             .click();
     });
 
-    // ---- Achievements ----
+    
     const ACHIEVEMENTS = [
         { id: 'explorer', emoji: '🧭', title: 'Explorer', desc: 'Scrolled through the whole site' },
         { id: 'deep_dive', emoji: '🔍', title: 'Deep Diver', desc: 'Opened a project for details' },
@@ -289,13 +287,13 @@
     document.getElementById('achvClose').addEventListener('click', () => achvBackdrop.classList.remove('open'));
     achvBackdrop.addEventListener('click', (e) => { if (e.target === achvBackdrop) achvBackdrop.classList.remove('open'); });
 
-    // Scroll-based explorer achievement
+    
     const footerEl = document.querySelector('footer');
     new IntersectionObserver((entries) => {
         entries.forEach(e => { if (e.isIntersecting) unlockAchievement('explorer'); });
     }, { threshold: 0.3 }).observe(footerEl);
 
-    // ---- Keyboard shortcuts overlay ----
+  
     const SHORTCUTS = [
         { key: '⌘ / Ctrl + K', label: 'Open command palette' },
         { key: '/', label: 'Focus project search' },
@@ -314,7 +312,7 @@
     shortcutsBackdrop.addEventListener('click', (e) => { if (e.target === shortcutsBackdrop) shortcutsBackdrop.classList
             .remove('open'); });
 
-    // ---- 3D tilt on project cards ----
+   
     function enableTilt() {
         if (!window.matchMedia('(pointer:fine)').matches || reduceMotion) return;
         document.querySelectorAll('.project-card').forEach(card => {
@@ -329,7 +327,7 @@
         });
     }
 
-    // ---- Resume PDF ----
+   
     function generateResumePdf() {
         if (!window.jspdf) { showToast('PDF library still loading — try again in a second.'); return; }
         const { jsPDF } = window.jspdf;
@@ -388,7 +386,7 @@
     }
     document.getElementById('resumeBtn').addEventListener('click', generateResumePdf);
 
-    // ---- Terminal ----
+   
     const termBody = document.getElementById('termBody');
     const termInput = document.getElementById('termInput');
 
@@ -496,7 +494,7 @@
     });
     termBoot();
 
-    // ---- Skills render ----
+   
     const skillsGrid = document.getElementById('skillsGrid');
     SKILLS.forEach(s => {
         const row = document.createElement('div');
@@ -526,7 +524,7 @@
         document.querySelectorAll('.project-card').forEach(card => card.classList.remove('tag-match', 'tag-dim'));
     }
 
-    // ---- Chips + projects ----
+   
     const allTags = ['all', ...new Set(PROJECTS.flatMap(p => p.tags))];
     const statuses = ['all', 'Deployed', 'Actively maintained', 'In design'];
     const chipRow = document.getElementById('chipRow');
@@ -646,7 +644,7 @@
     const statsRow = document.querySelector('.stats-row');
     if (statsRow) statsObserver.observe(statsRow);
 
-    // ---- Modal ----
+    
     const modalBackdrop = document.getElementById('modalBackdrop');
     const modalBody = document.getElementById('modalBody');
     const modalClose = document.getElementById('modalClose');
@@ -736,7 +734,7 @@
     modalClose.addEventListener('click', closeModal);
     modalBackdrop.addEventListener('click', (e) => { if (e.target === modalBackdrop) closeModal(); });
 
-    // ---- Timeline ----
+  
     const timelineEl = document.getElementById('timelineEl');
     const tlProgress = document.getElementById('tlProgress');
     const tlItems = document.querySelectorAll('.tl-item');
@@ -801,7 +799,7 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
 
-    // ---- Code snippets ----
+  
     const codeTabs = document.getElementById('codeTabs');
     const codePanes = document.getElementById('codePanes');
     CODE_SAMPLES.forEach((s, i) => {
@@ -825,7 +823,7 @@
     });
     if (window.hljs) document.querySelectorAll('#codePanes code').forEach(block => hljs.highlightElement(block));
 
-    // ---- SQL ----
+    
     const sqlInput = document.getElementById('sqlInput');
     const sqlRunBtn = document.getElementById('sqlRunBtn');
     const sqlResults = document.getElementById('sqlResults');
@@ -914,7 +912,7 @@
         sqlStatus.textContent = 'Could not load SQLite from the CDN — check your connection.';
     }
 
-    // ---- Copy email ----
+   
     const copyBtn = document.getElementById('copyEmailBtn');
     const copyFeedback = document.getElementById('copyFeedback');
     copyBtn.addEventListener('click', async () => {
@@ -929,7 +927,7 @@
         }
     });
 
-    // ---- Clock + uptime ----
+    
     const statusLine = document.getElementById('statusLine');
     const loadTime = Date.now();
 
@@ -944,7 +942,7 @@
     updateStatus();
     setInterval(updateStatus, 1000);
 
-    // ---- Command palette ----
+    
     const cmdkBackdrop = document.getElementById('cmdk-backdrop');
     const cmdkInput = document.getElementById('cmdk-input');
     const cmdkList = document.getElementById('cmdk-list');
@@ -1022,7 +1020,7 @@
     });
     cmdkBackdrop.addEventListener('click', (e) => { if (e.target === cmdkBackdrop) closeCmdk(); });
 
-    // ---- Konami ----
+    
     (function konami() {
         const seq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight',
             'b', 'a'
@@ -1072,7 +1070,7 @@
         draw();
     }
 
-    // ---- Background canvas ----
+    
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
     const bgToggle = document.getElementById('bgToggle');
@@ -1150,7 +1148,7 @@
         spawnBurst(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: true });
 
-    // ---- Orb parallax ----
+    
     const orb1 = document.querySelector('.orb-1');
     const orb2 = document.querySelector('.orb-2');
     let parX = 0,
@@ -1275,7 +1273,7 @@
         else stopAnim();
     });
 
-    // ---- i18n ----
+    
     let currentLang = 'en';
 
     function applyLang(lang) {
@@ -1357,7 +1355,7 @@
                 obs.disconnect(); } });
     }, { threshold: 0.2 }).observe(document.getElementById('github-activity'));
 
-    // ---- GitHub repo matching ----
+    
     let allUserRepos = [];
 
     function repoKey(s) { return (s || '').toLowerCase().replace(/[^a-z0-9]+/g, ''); }
@@ -1403,7 +1401,7 @@
     }
     loadAllRepos();
 
-    // ---- Contact form ----
+    
     const contactForm = document.getElementById('contactForm');
     const cfStatus = document.getElementById('cf-status');
     const cfStatusIcon = document.getElementById('cfStatusIcon');
@@ -1481,7 +1479,7 @@
         if (idx > -1) setTimeout(() => openModal(idx), reduceMotion ? 0 : 500);
     }
 
-    // ---- Photo circle tilt (parallax) — shared by hero avatar + timeline portrait ----
+   
     function setupTilt(el, opts = {}) {
         if (!el || reduceMotion || !window.matchMedia('(pointer:fine)').matches) return;
         const strength = opts.strength || 0.08;
@@ -1498,9 +1496,7 @@
             const cx = rect.left + rect.width / 2;
             const cy = rect.top + rect.height / 2;
             const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
-            // only engage the tilt once the pointer is reasonably close, so the
-            // timeline portrait doesn't tilt because of mouse movement on the
-            // far side of the page
+           
             active = dist < rect.width * 2.4;
             if (active) {
                 tx = (e.clientX - cx) * strength;
