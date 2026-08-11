@@ -1,11 +1,4 @@
-/* =========================================================================
-   DATA.JS — Everything personal lives in this file.
-   Edit this file to put in your own details. You should not need to
-   touch style.css or script.js unless you want to change how things work.
-   ========================================================================= */
 
-/* Your languages / tools and a rough confidence level (0-100). 'tag' is
-   used to filter projects below, so keep it short and lowercase. */
 const SKILLS = [
   { name: 'JavaScript',    level: 90, tag: 'javascript' },
   { name: 'HTML / CSS',    level: 92, tag: 'web' },
@@ -15,12 +8,7 @@ const SKILLS = [
   { name: 'Rust (Tauri)',  level: 60, tag: 'rust' },
 ];
 
-/* Your projects. 'tags' must match SKILLS tags above so filtering works.
-   'short' shows on the card, 'long' shows in the popup when clicked.
-   'demo' (optional) keys into the DEMOS registry in demos.js — it wires up
-   a small interactive, in-browser simulation of the real project so a
-   visitor can click a card and actually use something, not just read about
-   it. Leave 'demo' out (or unset) to fall back to a plain details modal. */
+
 const PROJECTS = [
   {
     title: 'Timecard PWA', status: 'Deployed · offline-first', dev: false,
@@ -66,8 +54,6 @@ const PROJECTS = [
   },
 ];
 
-/* Real source snippets shown in the "Under the hood" section.
-   'lang' must be a highlight.js language name (javascript, python, cpp, vbnet, etc). */
 const CODE_SAMPLES = [
   {
     lang: 'javascript', label: 'JavaScript', file: 'timecard-pwa/audit-log.js',
@@ -132,28 +118,23 @@ End Sub`
   },
 ];
 
-/* Site identity — used in the nav, hero, terminal boot sequence, and footer. */
+
 const PROFILE = {
   name: 'Leo',
   handle: 'leo',
   tagline: 'Software that keeps working when the wi-fi doesn\'t.',
   subhead: "I build client-deployable tools for real businesses — payroll systems, financial dashboards, and embedded hardware that run offline-first. Try the terminal below, it actually works.",
-  // Your photo(s). Put a URL (e.g. an /assets/ path once you upload the file,
-  // or any hosted image link) in each field below. Leave either one blank
-  // ('') to fall back to the auto-generated initials avatar.
+  
   photo: 'https://scontent.fmnl4-6.fna.fbcdn.net/v/t39.30808-6/771802341_1019175290950974_5726325441736874680_n.jpg?stp=dst-jpg_tt6&cstp=mx1440x1440&ctp=s1440x1440&_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeEj_N8AMyIm6holA-9QlEi3h8tTYlDkJ2aHy1NiUOQnZnchpchXWBBLUm0VYeEEOnmudwPR1TxcdMJuAfqfi__q&_nc_ohc=4ejjbWXPZTsQ7kNvwHrZSAF&_nc_oc=AdrPE2Aw8BBMAaS-BSBYZDfzW0l2t94G8RUfMc_zYMSrrrtOLHb8mb6bbqwOfca8w28Mye5_AJ2smKyNyk4j-WhC&_nc_zt=23&_nc_ht=scontent.fmnl4-6.fna&_nc_gid=SH1Sr6kZU76Kit8hxBUtLA&_nc_ss=7b2a8&oh=00_AQEfTVaX05d3ZwO92wC44NqGzPOI513q18je8EEDvTnS4w&oe=6A805D21',           // used by the big circle photo in the hero section
   timelinePhoto: 'https://scontent.fmnl4-1.fna.fbcdn.net/v/t39.30808-6/482020491_606359675565873_1247796702238154522_n.jpg?stp=dst-jpg_tt6&cstp=mx1820x1806&ctp=s1820x1806&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=a5f93a&_nc_eui2=AeFwyYIxXzsaDBZfevSSt_XfkY1g6OuGdd-RjWDo64Z135F1XNS9UoEp_SwGvrVQMfgmXAZ2h75YDr4GB-KHN7iR&_nc_ohc=buFgttaZSyMQ7kNvwEI78et&_nc_oc=Adot3R9Z21DKutEwsb-INYemnxHy3Wdqsb1QJfDB3eRtuLavzfdqjFGeAYHX41rT-Olnl77QM9i5zi9xEywOo3Re&_nc_zt=23&_nc_ht=scontent.fmnl4-1.fna&_nc_gid=s2W00tpRwCfLnX0CAw9xAA&_nc_ss=7b2a8&oh=00_AQHiyKL8CDTItXuC1h9qI7VceKRzPjwTYFEpBI3ZfW-e5g&oe=6A806AE4',   // used by the small circle photo in the Timeline section — set separately from the one above
   email: 'bregana.jhonleonex@ncst.edu.ph',
   github: 'https://github.com/Leo-dz-jo',
-  githubUsername: 'Leo-dz-jo',       // set this to your real GitHub username (e.g. 'octocat') to show live activity
-  formEndpoint: 'https://formspree.io/f/mppapjvw',         // optional: a Formspree-style endpoint URL (e.g. 'https://formspree.io/f/xxxxxxx'), NOT an email address. Leave blank to use the mailto fallback — this was previously set to an email address, which silently broke form submission.
+  githubUsername: 'Leo-dz-jo',       
+  formEndpoint: 'https://formspree.io/f/mppapjvw',         
   location: 'Bulihan,silang cavite, PH',
 };
 
-/* UI text for the language toggle (EN default). Add more keys here if you
-   add data-i18n attributes to new elements in index.html. This only
-   translates interface chrome — project descriptions stay in one language
-   on purpose, to avoid mistranslating technical detail. */
+
 const TRANSLATIONS = {
   en: {
     nav_skills: 'Skills', nav_work: 'Work', nav_timeline: 'Timeline', nav_code: 'Code',
