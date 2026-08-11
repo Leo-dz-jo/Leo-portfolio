@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leo — Systems &amp; Software</title>
+    <meta name="description" content="Leo builds offline-first web, desktop, and embedded tools for Philippine businesses." />
+    <meta name="theme-color" content="#0B0F14" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0F14'/%3E%3Ctext x='50' y='68' font-family='monospace' font-size='54' font-weight='700' fill='%23E8A33D' text-anchor='middle'%3E%2F%2F%3C/text%3E%3C/svg%3E" />
+    <meta property="og:title" content="Leo — Systems &amp; Software" />
+    <meta property="og:description" content="Offline-first web, desktop, and embedded tools for Philippine businesses." />
+    <meta name="twitter:card" content="summary" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="boot-box">
+            <div id="bootLines"></div>
+            <div class="boot-bar-track"><div class="boot-bar-fill" id="bootBar"></div></div>
+        </div>
+    </div>
+
+    <!-- Custom cursor -->
+    <div class="cursor-dot" id="cursorDot"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+
+    <!-- Scroll progress -->
+    <div id="scroll-progress"></div>
+    <div id="read-progress">0% read</div>
+
+    <!-- Background -->
+    <canvas id="bg-canvas"></canvas>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Side scrollspy -->
+    <nav id="dot-nav">
+        <button data-target="hero" aria-label="Home"><span class="dn-label">Home</span></button>
+        <button data-target="about" aria-label="About"><span class="dn-label">About</span></button>
+        <button data-target="skills" aria-label="Skills"><span class="dn-label">Skills</span></button>
+        <button data-target="work" aria-label="Work"><span class="dn-label">Work</span></button>
+        <button data-target="timeline" aria-label="Timeline"><span class="dn-label">Timeline</span></button>
+        <button data-target="github-activity" aria-label="GitHub"><span class="dn-label">GitHub</span></button>
+        <button data-target="underhood" aria-label="Code"><span class="dn-label">Code</span></button>
+        <button data-target="contact" aria-label="Contact"><span class="dn-label">Contact</span></button>
+    </nav>
+
+    <!-- Header -->
+    <header class="nav">
+        <div class="nav-inner">
+            <div class="logo"><span class="bracket">// </span><span id="navName">leo</span><span class="bracket">.dev</span></div>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open menu" aria-expanded="false" aria-controls="navCollapse">
+                <span></span><span></span><span></span>
+            </button>
+            <div class="nav-collapse" id="navCollapse">
+                <nav class="nav-links">
+                    <a href="#skills" data-i18n="nav_skills">Skills</a>
+                    <a href="#work" data-i18n="nav_work">Work</a>
+                    <a href="#timeline" data-i18n="nav_timeline">Timeline</a>
+                    <a href="#github-activity" data-i18n="nav_github">GitHub</a>
+                    <a href="#underhood" data-i18n="nav_code">Code</a>
+                    <a href="#about" data-i18n="nav_about">About</a>
+                    <a href="#contact" data-i18n="nav_contact">Contact</a>
+                </nav>
+                <div class="nav-right">
+                    <button class="kbd-btn" id="langToggleBtn">EN</button>
+                    <div class="theme-swatches" id="themeSwatches">
+                        <button class="swatch swatch-amber active" data-theme="" aria-label="Amber theme"></button>
+                        <button class="swatch swatch-teal" data-theme="theme-teal" aria-label="Teal theme"></button>
+                        <button class="swatch swatch-violet" data-theme="theme-violet" aria-label="Violet theme"></button>
+                        <button class="swatch swatch-rose" data-theme="theme-rose" aria-label="Rose theme"></button>
+                    </div>
+                    <button class="kbd-btn" id="achvOpenBtn" title="Achievements">🏆 <span id="achvCount">0/12</span></button>
+                    <button class="kbd-btn" id="cmdkOpenBtn">⌘</button>
+                    <div class="toggle-wrap">
+                        <span>SFX</span>
+                        <button class="toggle" id="sfxToggle" aria-pressed="false" aria-label="Toggle interface sound"></button>
+                    </div>
+                    <div class="toggle-wrap">
+                        <span>BG FX</span>
+                        <button class="toggle on" id="bgToggle" aria-pressed="true" aria-label="Toggle background animation"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="nav-backdrop" id="navBackdrop"></div>
+    </header>
+
+    <main class="wrap">
+
+        <!-- HERO with profile picture -->
+        <section class="hero" id="hero">
+            <p class="eyebrow">SYSTEM STATUS: OPERATIONAL <span class="cursor"></span></p>
+            <div class="hero-profile-wrap">
+                <div class="hero-text">
+                    <h1 class="headline" id="heroHeadline"></h1>
+                    <p class="subhead" id="heroSubhead" data-i18n="hero_sub"></p>
+                    <div class="cta-row">
+                        <a href="#work" class="btn btn-primary magnetic" data-i18n="cta_work">View builds ↓</a>
+                        <a href="#contact" class="btn btn-ghost magnetic" data-i18n="cta_contact">Get in touch</a>
+                    </div>
+                </div>
+                <div class="profile-avatar" id="profileAvatar" role="img" aria-label="Leo's profile photo">
+                    <!-- src is set from PROFILE.photo in data.js — edit that one field, not this tag -->
+                    <img alt="Leo" id="profileImage" />
+                </div>
+            </div>
+
+            <div class="terminal" data-reveal>
+                <div class="term-head">
+                    <span>root@leo:~$ interactive-shell</span>
+                    <div class="term-dots"><span></span><span></span><span></span></div>
+                </div>
+                <div class="term-body" id="termBody"></div>
+                <div class="term-input-row">
+                    <span class="prompt-sym">❯</span>
+                    <input id="termInput" type="text" autocomplete="off" spellcheck="false" placeholder="type 'help' and press enter" aria-label="Terminal command input">
+                </div>
+            </div>
+            <p class="term-hint">try: help · about · skills · projects · theme teal · clear · ⌘K for palette · ? for shortcuts</p>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <div class="section-head">
+                <div>
+                    <p class="section-label" data-i18n="about_label">01 — About</p>
+                    <h2 class="section-title glitch-title" data-i18n="about_title">Built for the field, not the demo.</h2>
+                </div>
+            </div>
+            <div class="about-grid">
+                <div class="about-copy" data-reveal>
+                    <p>Most of what I build lives where the internet is unreliable, the browser doubles as a payroll clerk, and Excel is a legitimate production environment. I design for that reality — <strong>local-first storage, exportable data, and interfaces people who aren't developers can trust.</strong></p>
+                    <p>My work spans progressive web apps for workforce management, live financial dashboards spanning multiple companies, desktop tools built with Tauri, and embedded systems running on real microcontrollers.</p>
+                    <p>Based in the Philippines, I build primarily for Philippine business contexts — payroll compliance, peso-denominated reporting, and multi-language interfaces for mixed teams.</p>
+                </div>
+                <ul class="about-list" data-reveal>
+                    <li><span class="k">Focus</span><span class="v">Offline-first web &amp; desktop apps</span></li>
+                    <li><span class="k">Domain</span><span class="v">PH payroll &amp; SME financial tooling</span></li>
+                    <li><span class="k">Also builds</span><span class="v">Embedded / Arduino systems</span></li>
+                    <li><span class="k">Storage</span><span class="v">IndexedDB, local files, spreadsheets</span></li>
+                    <li><span class="k">Packaging</span><span class="v">Electron, Capacitor, Tauri</span></li>
+                    <li><span class="k">Languages</span><span class="v">English, Filipino, Spanish UI</span></li>
+                </ul>
+            </div>
+
+            <!-- Stats row -->
+            <div class="stats-row" data-reveal>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="0">0</div>
+                    <div class="stat-label">Projects shipped</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="0">0</div>
+                    <div class="stat-label">Languages used</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="0">0</div>
+                    <div class="stat-label">Live demos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-count="0">0</div>
+                    <div class="stat-label">Years building</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SKILLS -->
+        <section id="skills">
+            <div class="section-head">
+                <div>
+                    <p class="section-label glitch-title glitch-title-small" data-i18n="skills_label">02 — Languages</p>
+                    <h2 class="section-title glitch-title" data-i18n="skills_title">What I've built with</h2>
+                </div>
+                <p class="section-note">Hover a skill to highlight matching projects. Click to filter.</p>
+            </div>
+            <div class="skills-grid" id="skillsGrid" data-reveal></div>
+        </section>
+
+        <!-- WORK -->
+        <section id="work">
+            <div class="section-head">
+                <div>
+                    <p class="section-label" data-i18n="work_label">03 — Selected work</p>
+                    <h2 class="section-title glitch-title" data-i18n="work_title">Projects</h2>
+                </div>
+                <p class="section-note">Search, filter by language or status. Click a card for details + live demos.</p>
+            </div>
+
+            <div class="filter-bar">
+                <div class="chip-row" id="chipRow"></div>
+                <div class="chip-row" id="statusChipRow"></div>
+            </div>
+            <div class="search-row">
+                <input type="text" id="projectSearch" placeholder="Search projects…" />
+            </div>
+            <p class="results-count" id="resultsCount"></p>
+            <div class="project-grid" id="projectGrid" data-reveal></div>
+        </section>
+
+        <!-- TIMELINE -->
+        <section id="timeline">
+            <div class="section-head">
+                <div>
+                    <p class="section-label" data-i18n="timeline_label">04 — Path</p>
+                    <h2 class="section-title glitch-title" data-i18n="timeline_title">How this built up</h2>
+                </div>
+                <p class="section-note">Click a stage to expand. Chips jump to the related project.</p>
+            </div>
+            <div class="timeline-wrap">
+            <div class="timeline" id="timelineEl" data-reveal>
+                <div class="tl-progress" id="tlProgress"></div>
+                <div class="tl-item" data-projects="MB_303 — Biometric Attendance">
+                    <button class="tl-header" aria-expanded="false">
+                        <span class="tl-dot"></span>
+                        <span class="tl-head-text">
+                            <span class="tl-year">Foundations</span>
+                            <span class="tl-title">Arduino &amp; embedded systems</span>
+                        </span>
+                        <span class="tl-chevron">▾</span>
+                    </button>
+                    <div class="tl-body">
+                        <p class="tl-desc">Started with hardware — fingerprint sensors, RTC modules, and servo control — building the MB_303 biometric attendance system for EARIST Cavite.</p>
+                        <div class="tl-links"></div>
+                    </div>
+                </div>
+                <div class="tl-item" data-projects="Excel Business Suite">
+                    <button class="tl-header" aria-expanded="false">
+                        <span class="tl-dot"></span>
+                        <span class="tl-head-text">
+                            <span class="tl-year">Growth</span>
+                            <span class="tl-title">Business tooling in Excel &amp; Python</span>
+                        </span>
+                        <span class="tl-chevron">▾</span>
+                    </button>
+                    <div class="tl-body">
+                        <p class="tl-desc">Moved into spreadsheet-based business systems — inventory, invoicing, and payroll tools built with Python and openpyxl for real Philippine SMEs.</p>
+                        <div class="tl-links"></div>
+                    </div>
+                </div>
+                <div class="tl-item" data-projects="Timecard PWA|Financial Command Center">
+                    <button class="tl-header" aria-expanded="false">
+                        <span class="tl-dot"></span>
+                        <span class="tl-head-text">
+                            <span class="tl-year">Expansion</span>
+                            <span class="tl-title">Offline-first web apps</span>
+                        </span>
+                        <span class="tl-chevron">▾</span>
+                    </button>
+                    <div class="tl-body">
+                        <p class="tl-desc">Built the Timecard PWA and the Financial Command Center — client-side apps using IndexedDB and Chart.js that work with zero server dependency.</p>
+                        <div class="tl-links"></div>
+                    </div>
+                </div>
+                <div class="tl-item" data-projects="dev-to-do|Branch">
+                    <button class="tl-header" aria-expanded="false">
+                        <span class="tl-dot"></span>
+                        <span class="tl-head-text">
+                            <span class="tl-year">Now</span>
+                            <span class="tl-title">Desktop tooling with Tauri</span>
+                        </span>
+                        <span class="tl-chevron">▾</span>
+                    </button>
+                    <div class="tl-body">
+                        <p class="tl-desc">Currently building dev-to-do, a Rust-backed desktop app, and exploring Branch — a git-native task manager concept.</p>
+                        <div class="tl-links"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline photo circle -->
+            <div class="tl-portrait" id="tlPortrait" data-reveal>
+                <div class="tlp-visual" role="img" aria-label="Leo's photo">
+                    <div class="tlp-orbit" aria-hidden="true">
+                        <span class="tlp-node n1"></span>
+                        <span class="tlp-node n2"></span>
+                        <span class="tlp-node n3"></span>
+                    </div>
+                    <div class="tlp-glow" aria-hidden="true"></div>
+                    <div class="tlp-frame" id="tlpFrame">
+                        <span class="tlp-corner tl-nw" aria-hidden="true"></span>
+                        <span class="tlp-corner tl-ne" aria-hidden="true"></span>
+                        <span class="tlp-corner tl-sw" aria-hidden="true"></span>
+                        <span class="tlp-corner tl-se" aria-hidden="true"></span>
+                        <div class="tlp-ring" aria-hidden="true"></div>
+                        <div class="tlp-ring tlp-ring-2" aria-hidden="true"></div>
+                        <div class="tlp-photo">
+                            <!-- src is set from PROFILE.timelinePhoto in data.js -->
+                            <img alt="Leo" id="timelinePortraitImg" />
+                            <span class="tlp-ghost tlp-ghost-r" aria-hidden="true"></span>
+                            <span class="tlp-ghost tlp-ghost-b" aria-hidden="true"></span>
+                            <div class="tlp-scan" aria-hidden="true"></div>
+                            <div class="tlp-grid" aria-hidden="true"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="tlp-caption"><span class="tlp-caption-dot"></span>live build — leo.dev</p>
+            </div>
+            </div>
+        </section>
+
+        <!-- GITHUB -->
+        <section id="github-activity">
+            <div class="section-head">
+                <div>
+                    <p class="section-label" data-i18n="gh_label">05 — Live</p>
+                    <h2 class="section-title glitch-title" data-i18n="gh_title">GitHub activity</h2>
+                </div>
+                <p class="section-note">Pulled live from the GitHub API — not a screenshot.</p>
+            </div>
+            <div class="gh-panel" id="ghPanel" data-reveal>
+                <p class="gh-empty">Add your GitHub username in <code>data.js</code> (<code>PROFILE.githubUsername</code>) to bring this section to life.</p>
+            </div>
+        </section>
+
+        <!-- UNDER HOOD -->
+        <section id="underhood">
+            <div class="section-head">
+                <div>
+                    <p class="section-label" data-i18n="uth_label">06 — Under the hood</p>
+                    <h2 class="section-title" data-i18n="uth_title">Not just a list of languages</h2>
+                </div>
+                <p class="section-note">A real SQLite engine running in your browser, and real source from real projects.</p>
+            </div>
+            <div class="uth-grid" data-reveal>
+                <div class="uth-panel">
+                    <h3>SQL — live query</h3>
+                    <p class="uth-sub">Actual SQLite, compiled to WebAssembly, querying this page's project data.</p>
+                    <div class="sql-presets" id="sqlPresets"></div>
+                    <div class="sql-input-row">
+                        <textarea id="sqlInput" spellcheck="false">SELECT title, status FROM projects;</textarea>
+                        <button id="sqlRunBtn">Run</button>
+                    </div>
+                    <div class="sql-results-wrap" id="sqlResults"></div>
+                    <p class="sql-status" id="sqlStatus">Loading SQLite (WebAssembly)…<button id="csvBtn" style="display:none;">Export CSV</button></p>
+                </div>
+                <div class="uth-panel">
+                    <h3>Source — real snippets</h3>
+                    <p class="uth-sub">Pulled from the actual logic behind the projects above.</p>
+                    <div class="code-tabs" id="codeTabs"></div>
+                    <div id="codePanes" style="flex:1; overflow:auto;"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="contact-panel" data-reveal>
+                <h2 data-i18n="contact_title">Have something that needs building?</h2>
+                <p data-i18n="contact_sub">Open to freelance projects — workforce tools, dashboards, or the occasional embedded system. Reach out and tell me what it needs to do.</p>
+
+                <form id="contactForm" class="contact-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="cf-name" data-i18n="form_name">Name</label>
+                            <input type="text" id="cf-name" name="name" required />
+                            <span class="form-error" id="err-name"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="cf-email" data-i18n="form_email">Your email</label>
+                            <input type="email" id="cf-email" name="email" required />
+                            <span class="form-error" id="err-email"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="cf-message" data-i18n="form_msg">What do you need built?</label>
+                        <textarea id="cf-message" name="message" rows="4" required></textarea>
+                        <span class="form-error" id="err-message"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary magnetic" id="cf-submit" data-i18n="form_send">Send message</button>
+                    <div class="form-status" id="cf-status" role="status" aria-live="polite">
+                        <span class="form-status-icon" id="cfStatusIcon"></span>
+                        <span class="form-status-text" id="cfStatusText"></span>
+                    </div>
+                </form>
+
+                <div class="contact-actions">
+                    <button class="btn btn-ghost magnetic" id="copyEmailBtn">Copy email</button>
+                    <a href="#" id="githubLink" class="btn btn-ghost magnetic">View GitHub</a>
+                    <button class="btn btn-ghost magnetic" id="resumeBtn">Download résumé (PDF)</button>
+                </div>
+                <p class="copy-feedback" id="copyFeedback">Copied to clipboard ✓</p>
+            </div>
+        </section>
+
+        <footer>
+            <p id="footerLocation">// built offline-first</p>
+            <div class="footer-social">
+                <span id="statusLine" style="font-family:var(--font-mono);font-size:11px;color:var(--text-dim);">local time -- · uptime --</span>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Modals -->
+    <div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal" id="modalBody" role="dialog" aria-modal="true">
+            <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        </div>
+    </div>
+
+    <div id="cmdk-backdrop">
+        <div id="cmdk" role="dialog" aria-modal="true">
+            <input id="cmdk-input" type="text" placeholder="Type a command or search sections… (Esc to close)" autocomplete="off" spellcheck="false" />
+            <div id="cmdk-list"></div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="achvBackdrop">
+        <div class="modal" id="achvPanel" role="dialog" aria-modal="true">
+            <button class="modal-close" id="achvClose" aria-label="Close">✕</button>
+            <h3>Achievements</h3>
+            <p style="color:var(--text-muted);font-size:13px;margin-bottom:4px;">Unlocked by exploring the site — nothing to install, just click around.</p>
+            <div class="achv-list" id="achvList"></div>
+            <p class="achv-progress" id="achvProgress"></p>
+        </div>
+    </div>
+
+    <div class="modal-backdrop" id="shortcutsBackdrop">
+        <div class="modal" id="shortcutsPanel" role="dialog" aria-modal="true">
+            <button class="modal-close" id="shortcutsClose" aria-label="Close">✕</button>
+            <h3>Keyboard shortcuts</h3>
+            <div id="shortcutsList"></div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="data.js"></script>
+    <script src="demos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
